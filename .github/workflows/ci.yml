@@ -43,12 +43,3 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm install
     - run: npm run test
-    env:
-      APP_PORT: 3000
-      APP_DEBUG: true
-      APP_KEY: ${{ secrets.KEY }}
-      DB_USER: root
-      DB_PASS:
-      DB_NAME: apinode
-      DB_HOST: localhost
-      DB_DIALECT: mysql
