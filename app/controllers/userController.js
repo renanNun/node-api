@@ -1,31 +1,34 @@
 const { User } = require('../models');
 
-const createUser = async (req,res) => {
+const createUser = async (req, res) => {
+    if (!req.body.name)
+        res.status(400).send('Name field is required');
+    if (!req.body.email)
+        res.status(400).send('Email field is required');
+    if (!req.body.password)
+        res.status(400).send('Password field is required');
+    if (!req.body.confirmedPassword)
+        res.status(400).send('confirmed Password field is required');
 
-    if(req.body.name && req.body.password){
-        if(req.body.confirmedPassword && req.body.password == req.body.confirmedPassword)
-        {
-            try {        
-                const user = await User.create(req.body);
-                return res.status(201).json({
-                    user,
-                });
-            } catch (error) {
-                return res.status(500).send(error.message);
-            }
-        }else{
-            res.status(400).send('Passwords doesnt match');
+    if (req.body.confirmedPassword && req.body.password == req.body.confirmedPassword) {
+        try {
+            const user = await User.create(req.body);
+            return res.status(201).json({
+                user,
+            });
+        } catch (error) {
+            return res.status(500).send(error.message);
         }
-    }else{
-        res.status(400).send('Name and passwords fields are requireds');
+    } else {
+        res.status(400).send('Passwords doesnt match');
     }
 };
 
-const getAllUsers = async (req,res) => {
+const getAllUsers = async (req, res) => {
     try {
         const users = await User.findAll();
 
-        return res.status(200).json({users});
+        return res.status(200).json({ users });
     } catch (error) {
         return res.status(500).send(error.message);
     }
